@@ -1,0 +1,78 @@
+非商业使用许可协议 v1.0
+Non-Commercial License v1.0
+
+版权所有 (c) 2026 youmenputao666
+Copyright (c) 2026 youmenputao666
+
+本协议适用于本仓库（"我的书架 / bookshelf"）的全部源代码及相关文档。
+
+
+一、允许的行为
+
+1. 你可以自由复制、使用、修改、合并、发布本软件，用于任何非商业目的，
+   包括但不限于个人学习、研究、自用部署、教学演示，以及分享给他人。
+2. 你可以基于本软件创作衍生作品，并自行决定衍生作品的许可方式；
+   但衍生作品中来源于本软件的部分，仍受本协议约束。
+3. 无需事先取得作者同意，也无需支付任何费用。
+
+
+二、禁止的行为
+
+不得将本软件或其衍生作品用于任何商业目的，包括但不限于：
+
+1. 出售本软件，或出售基于本软件提供的服务；
+2. 将本软件作为付费产品、付费服务、付费会员权益的组成部分；
+3. 在商业组织中用于生产经营活动，并因此获得直接或间接的经济收益；
+4. 以本软件为基础提供收费的托管、咨询、定制开发或技术支持服务。
+
+
+三、再分发条件
+
+1. 再分发本软件或其衍生作品时，必须保留本协议全文及原始版权声明。
+2. 修改后的版本应明确注明已被修改，不得暗示原作者为其背书。
+3. 不得移除或更改本软件中的版权声明与许可声明。
+
+
+四、免责声明
+
+本软件按"原样"（AS IS）提供，不附带任何明示或默示的担保，包括但不限于
+对适销性、特定用途适用性、无缺陷和不侵权的担保。
+
+在任何情况下，作者均不对因使用或无法使用本软件而产生的任何直接、间接、
+偶然、特殊、惩罚性或后果性损害承担责任，包括但不限于数据丢失、业务中断、
+设备损坏、第三方索赔或利润损失，无论其成因及责任理论如何。
+
+使用者应自行评估并承担使用本软件的全部风险，包括但不限于本软件依赖的
+第三方服务（如豆瓣、微信读书等）变更、限制或封禁所带来的影响。
+
+
+五、不承诺维护
+
+作者不保证本软件持续可用、无缺陷，也不承诺提供更新、BUG 修复、技术支持
+或问题响应。是否继续开发与维护，完全由作者自行决定。
+
+
+六、协议的终止
+
+违反本协议任一条款，本协议授予你的全部权利立即终止，你应立即停止使用
+并删除本软件的全部副本。
+
+
+---
+
+English Summary (non-binding, for reference only)
+
+You may copy, use, modify and redistribute this software for any
+NON-COMMERCIAL purpose, provided that this license and the original copyright
+notice are retained.
+
+Commercial use of any kind is NOT permitted, including selling the software,
+including it in a paid product or service, or using it for revenue-generating
+business operations.
+
+The software is provided "AS IS", without warranty of any kind, express or
+implied. The author accepts no liability for any damages arising from the use
+of or inability to use this software.
+
+The author makes no commitment to maintain, update, or fix bugs in this
+software.
