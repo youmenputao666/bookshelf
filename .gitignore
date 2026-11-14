@@ -1,0 +1,29 @@
+# 依赖
+node_modules/
+
+# 个人数据（书库、封面缓存、上传文件）
+data/
+backups/
+
+# 本地配置（含后台路径与密码，首次启动会自动生成）
+config.json
+
+# 数据库文件（放在 data/ 里，这里再兜底一次）
+*.db
+*.db-wal
+*.db-shm
+*.bak
+*.bak-*
+
+# 日志
+*.log
+
+# 系统文件
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# 个人一次性维护脚本（写死了本机私有目录，不公开发布）
+check-ebook4.js
+fill-ratings.js
+mark-ebook.js

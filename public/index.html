@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>我的书架</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <span class="brand" title="我的书架">
+        <span class="logo">📚</span>
+        <span class="title">我的书架</span>
+      </span>
+    </div>
+  </header>
+
+  <main class="shelf-main">
+    <div class="container">
+
+      <!-- 三个书架 Tab -->
+      <nav class="shelf-tabs" id="shelf-tabs">
+        <button class="shelf-tab active" data-view="physical">📕 实体书架</button>
+        <button class="shelf-tab" data-view="ebook">📱 电子书架</button>
+        <button class="shelf-tab" data-view="read">✅ 已读书架</button>
+      </nav>
+
+      <!-- 子筛选（随书架变化）+ 搜索 + 排序 -->
+      <div class="toolbar">
+        <div class="sub-filter" id="sub-filter"></div>
+        <div class="toolbar-right">
+          <input id="search-input" type="search" placeholder="搜索书名 / 作者…" autocomplete="off">
+          <select id="sort-select" title="排序">
+            <option value="rating" selected>我的评分</option>
+            <option value="">最近添加</option>
+            <option value="title">书名</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="shelf-summary" id="shelf-summary"></div>
+
+      <!-- 书籍网格 -->
+      <div class="book-grid" id="book-grid"></div>
+      <div class="empty-state" id="empty-state" hidden>
+        <div class="big">📚</div>
+        <p>这个书架上还没有书</p>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

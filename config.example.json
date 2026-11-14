@@ -1,0 +1,9 @@
+{
+  "port": 5000,
+  "secret": "请替换为一串足够长的随机字符串（建议 64 位十六进制）",
+  "adminPath": "/mgmt-请替换为随机后缀",
+  "admin": {
+    "username": "admin",
+    "password": "请替换为强密码"
+  }
+}

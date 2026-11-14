@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>书架管理后台</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <span class="brand" title="书架管理后台">
+        <span class="logo">📚</span>
+        <span class="title">书架后台</span>
+      </span>
+      <div class="header-actions">
+        <a href="/" target="_blank">前台 ↗</a>
+        <span id="whoami" class="whoami"></span>
+        <button id="btn-logout" hidden>退出登录</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-main container">
+
+    <!-- 登录视图 -->
+    <div id="login-view" class="login-wrap">
+      <div class="login-card">
+        <h2>书架管理员登录</h2>
+        <div class="form-group">
+          <label>用户名</label>
+          <input id="login-username" autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label>密码</label>
+          <input id="login-password" type="password" autocomplete="current-password">
+        </div>
+        <button class="btn" id="btn-login" style="width:100%;">登 录</button>
+        <div class="form-msg" id="login-msg"></div>
+      </div>
+    </div>
+
+    <!-- 后台视图 -->
+    <div id="dash-view" hidden>
+      <div class="admin-nav" id="admin-nav"></div>
+
+      <!-- 书架管理 -->
+      <div id="view-shelf">
+        <div class="toolbar-row">
+          <h2 class="admin-title" style="margin:0;">书架管理</h2>
+          <span id="book-total" class="count-badge"></span>
+          <div class="spacer"></div>
+          <button class="btn btn-sm" id="btn-fill-isbn" title="有豆瓣链接但缺 ISBN/评分/封面/作者等信息的书，自动去豆瓣补全">🔧 补全豆瓣信息</button>
+          <button class="btn btn-sm" id="btn-new-book">＋ 添加书籍</button>
+        </div>
+        <div id="fill-isbn-progress" class="import-progress" hidden>
+          <div class="progress-track"><div class="progress-bar" id="fill-isbn-bar"></div></div>
+          <div class="progress-text" id="fill-isbn-progress-text"></div>
+        </div>
+        <div class="toolbar-row">
+          <input id="admin-search" type="search" placeholder="搜索书名 / 作者…" autocomplete="off" style="max-width:280px;">
+          <select id="filt-read" style="width:auto;" title="读书状态">
+            <option value="">读书状态：全部</option>
+            <option value="1">已读</option>
+            <option value="0">未读</option>
+          </select>
+          <select id="filt-own" style="width:auto;" title="拥有状态">
+            <option value="">拥有状态：全部</option>
+            <option value="physical">实体</option>
+            <option value="ebook">电子</option>
+            <option value="none">未拥有</option>
+          </select>
+          <select id="filt-rated" style="width:auto;" title="评价状态">
+            <option value="">评价状态：全部</option>
+            <option value="1">已评价</option>
+            <option value="0">未评价</option>
+          </select>
+          <select id="filt-douban" style="width:auto;" title="豆瓣链接">
+            <option value="">豆瓣链接：全部</option>
+            <option value="1">有豆瓣链接</option>
+            <option value="0">无豆瓣链接</option>
+          </select>
+          <select id="filt-sort" style="width:auto;" title="排序">
+            <option value="rating" selected>我的评分</option>
+            <option value="id">最近添加</option>
+            <option value="title">书名</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" id="btn-reset-filters" title="清空搜索和筛选">↺ 重置筛选</button>
+        </div>
+        <div class="book-list" id="book-list"></div>
+        <div class="empty-list" id="book-empty" hidden>书架上还没有书</div>
+      </div>
+
+      <!-- 批量导入 -->
+      <div id="view-import" hidden>
+        <h2 class="admin-title">批量导入</h2>
+        <p class="admin-subtitle">导入的是「读书记录」：会默认标记为「已读」。选中候选后可以调整状态再入库，重复的书会自动跳过。</p>
+
+        <!-- 豆瓣 -->
+        <div class="import-box">
+          <h3>① 豆瓣 · 我的读书记录</h3>
+          <div class="import-row">
+            <input type="text" id="imp-douban-id" placeholder="豆瓣 ID 或主页地址，如 https://www.douban.com/people/xxxxxx/">
+            <button class="btn btn-sm" id="btn-imp-douban">拉取读过列表</button>
+          </div>
+          <div class="import-hint">只导入「读过」的书；未登录时豆瓣可能拦截，可在「设置」中填入豆瓣 Cookie。</div>
+          <div id="imp-douban-progress" class="import-progress" hidden>
+            <div class="progress-track"><div class="progress-bar" id="imp-douban-bar"></div></div>
+            <div class="progress-text" id="imp-douban-progress-text"></div>
+          </div>
+          <div class="form-msg" id="imp-douban-msg"></div>
+          <div id="imp-douban-list"></div>
+        </div>
+
+        <!-- 本地电子书 -->
+        <div class="import-box">
+          <h3>② 本地电子书目录</h3>
+          <div class="import-row">
+            <input type="text" id="imp-pdf-dir" placeholder="如 D:\Books（扫描 pdf/epub/mobi/azw3/txt，含子目录）">
+            <label class="import-hint" style="white-space:nowrap;">
+              <input type="checkbox" id="imp-pdf-detail" checked> 自动补全豆瓣信息（书名/作者/ISBN/封面/链接）
+            </label>
+            <button class="btn btn-sm" id="btn-imp-pdf">扫描匹配</button>
+          </div>
+          <div id="imp-pdf-progress" class="import-progress" hidden>
+            <div class="progress-track"><div class="progress-bar" id="imp-pdf-bar"></div></div>
+            <div class="progress-text" id="imp-pdf-progress-text"></div>
+          </div>
+          <div class="import-hint">导入的书默认标「电子」（实体书只会手动标）。「未读书」子目录里的默认「未读」，其余默认「已读」。匹配到的书会自动补全豆瓣信息；匹配不上的标「未匹配」，可用文件名作书名导入。书多时需要几分钟。</div>
+          <div class="form-msg" id="imp-pdf-msg"></div>
+          <div id="imp-pdf-list"></div>
+        </div>
+      </div>
+
+      <!-- 设置 -->
+      <div id="view-settings" hidden>
+        <h2 class="admin-title">设置</h2>
+        <div class="settings-box">
+          <div class="form-group">
+            <label>豆瓣 Cookie（可选）</label>
+            <input id="set-douban-cookie" type="text" placeholder="dbcl2=xxxx; ck=xxxx" autocomplete="off">
+            <div class="hint">
+              豆瓣限制越来越严，未登录时抓取容易被拦截。填上你的豆瓣登录 Cookie 可显著提高成功率。
+              获取方法：浏览器登录豆瓣后按 F12 → 网络 → 复制请求头里的 Cookie 字段。
+            </div>
+            <div class="setting-status" id="set-douban-status"></div>
+          </div>
+          <div class="form-group">
+            <label>本地电子书目录（默认）</label>
+            <input id="set-pdf-dir" type="text" placeholder="如 D:\books">
+            <div class="hint">批量导入本地电子书时的默认目录。</div>
+          </div>
+          <button class="btn" id="btn-save-settings">保存设置</button>
+          <div class="form-msg" id="settings-msg"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 添加/编辑书籍弹窗 -->
+  <div class="modal-overlay" id="book-modal">
+    <div class="modal">
+      <h2><span id="book-modal-title">添加书籍</span> <button class="close" data-close="book-modal">&times;</button></h2>
+
+      <div class="form-group">
+        <label>书名 <span class="req">*</span></label>
+        <div class="douban-row">
+          <input id="f-title" placeholder="输入书名，或点右边从豆瓣搜索">
+          <button class="btn btn-ghost btn-sm" id="btn-douban" type="button">🔍 豆瓣搜索</button>
+        </div>
+        <div class="douban-results" id="douban-results" hidden></div>
+        <div class="book-summary" id="book-summary" hidden>
+          <img id="cover-preview-img" alt="封面">
+          <div class="book-summary-info">
+            <div id="book-summary-title"></div>
+            <div id="book-summary-meta"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>作者</label>
+        <input id="f-author" placeholder="选书后自动填写，也可手动修改">
+      </div>
+
+      <div class="form-group">
+        <label>ISBN</label>
+        <input id="f-isbn" placeholder="选书后自动填写，也可手动填写">
+      </div>
+
+      <div class="form-group">
+        <label>豆瓣链接</label>
+        <div class="douban-row">
+          <input id="f-douban-url" placeholder="粘贴豆瓣链接，点右边按链接补全；或搜索选书后自动填写">
+          <button class="btn btn-ghost btn-sm" id="btn-fill-url" type="button">补全</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>封面图片</label>
+        <div class="douban-row">
+          <input id="f-cover" placeholder="图片地址（豆瓣封面上传或填 URL）">
+          <label class="btn btn-ghost btn-sm upload-btn">
+            上传
+            <input type="file" id="f-cover-file" accept="image/*" hidden>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>拥有与阅读状态</label>
+        <label class="switch-row"><span class="switch-label">📕 实体有</span>
+          <span class="switch"><input type="checkbox" id="f-physical"><span class="switch-slider"></span></span>
+        </label>
+        <label class="switch-row"><span class="switch-label">📱 电子有</span>
+          <span class="switch"><input type="checkbox" id="f-ebook"><span class="switch-slider"></span></span>
+        </label>
+        <label class="switch-row"><span class="switch-label">✅ 已读</span>
+          <span class="switch"><input type="checkbox" id="f-read"><span class="switch-slider"></span></span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>我的评分</label>
+        <div class="rating-picker" id="rating-picker">
+          <button type="button" data-star="1">★</button>
+          <button type="button" data-star="2">★</button>
+          <button type="button" data-star="3">★</button>
+          <button type="button" data-star="4">★</button>
+          <button type="button" data-star="5">★</button>
+          <button type="button" class="rating-clear">清除</button>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-ghost" type="button" data-close="book-modal">取消</button>
+        <button class="btn" id="btn-save-book" type="button">保存</button>
+      </div>
+      <div class="form-msg" id="book-msg"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

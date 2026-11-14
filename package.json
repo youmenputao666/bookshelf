@@ -1,0 +1,17 @@
+{
+  "name": "bookshelf",
+  "version": "1.0.0",
+  "description": "个人书架：实体/电子/已读书架、豆瓣信息、后台管理",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "express": "^5.2.1",
+    "multer": "^2.2.0"
+  },
+  "allowScripts": {
+    "better-sqlite3@13.0.3": true
+  }
+}
